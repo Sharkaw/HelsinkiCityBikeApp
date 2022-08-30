@@ -12,3 +12,4 @@ Using
 Perhaps coming up
   - UI
   - Search options
+  - Bike usage (currently you can search, update, add or delete only Bike Stations)
