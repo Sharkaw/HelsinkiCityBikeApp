@@ -1,0 +1,248 @@
+openapi: '3.0.0'
+info:
+  title: Bike App API
+  version: 1.0.0
+  description: Bike App API Documentation
+servers:
+  - url: http://localhost:3000
+
+tags:
+  - name: Bike Stations
+    description: The bike station endpoint
+  #- name: Users
+  #  description: The users endpoint
+  #- name: Login
+  #  description: The login endpoint
+
+paths:
+  /bikesdb:
+    get:
+      summary: Returns a list of all Bike stations
+      tags: [Bike Stations]
+      operationId: getStations
+      responses:
+        '200':
+          description: Successfully returned a list of bike stations
+          content:
+            application/json:
+              schema:
+                description: List of bike stations
+                type: array
+                items:
+                  $ref: '#/components/schemas/Station'
+            text/csv:
+              schema:
+                description: List of stations in CSV format
+                type: array
+                items:
+                  $ref: '#/components/schemas/Station'
+    post:
+      summary: Create a new station
+      tags: [Bike Stations]
+      operationId: Create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StationToBeAdded'
+      #security:
+      #  - bearerAuth: []
+      responses:
+        '200':
+          description: The Bike station was created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Station'
+        '404':
+          description: Server Error
+  /bikesdb/{ID:}:
+    get:
+      summary: Returns a Bike station
+      tags: [Bike Stations]
+      parameters:
+      - name: ID
+        in: path
+        description: ID of station to return
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successfully returned a bike station
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Station'
+        '400':
+          description: Invalid Station ID
+        '404':
+          description: Station ID not found       
+    put:
+      summary: Update a station
+      tags: [Bike Stations]
+      operationId: update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Station'
+      #security:
+      #  - bearerAuth: []
+      responses:
+        '200':
+          description: The Bike station was updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Station'
+        '404':
+          description: Server Error
+    delete:
+      summary: Remove a station
+      tags: [Bike Stations]
+      operationId: remove
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Station'
+      #security:
+      #  - bearerAuth: []
+      responses:
+        '200':
+          description: The Bike station was removed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Station'
+        '400':
+          description: Invalid Station ID
+        #'401':
+         # description: Authentication error (token is missing)
+        #'403':
+        #  description: User cannot delete another's place or wrong token
+        '404':
+          description: Station ID not found
+
+
+components:
+# For possible login feature
+  #securitySchemes:
+   # bearerAuth:
+    #  type: http
+     # scheme: bearer
+      #bearerFormat: JWT # JSON Web Token
+
+  schemas:
+    StationToBeAdded:
+      type: object
+      properties:
+        Nimi:
+          type: string
+          description: The Finnish name of the station
+        Namn:
+          type: string
+          description: The Swedish name of the station
+        Name:
+          type: string
+          description: The English name of the station
+        Osoite:
+          type: string
+          description: The Finnish address of the station
+        Adress:
+          type: string
+          description: The Swedish address of the station
+        Kaupunki:
+          type: string
+          description: The Finnish name of the city where the station is
+        Stad:
+          type: string
+          description: The Swedish name of the city where the station is
+        Operaattor:
+          type: number
+          description: The operator for the station
+        Kapasiteet:
+          type: number
+          description: The capasite of the station
+        X:
+          type: number
+          description: The Longitude of the station
+        Y:
+          type: number
+          description: The Latitude of the station
+      example:
+          FID: 121
+          ID: 41
+          Nimi: Vapauden puisto
+          Namn: Frihetsparken
+          Name: Freedom park
+          Osoite: Rantakatu 20
+          Adress: Rantakatu 20
+          Kaupunki: Joensuu
+          Stad: Joensuu
+          Operaattor: Tier
+          Kapasiteet: 26
+          lat: 62.60034555795045 
+          lon: 29.764094068853424
+
+    Place:
+      type: object
+      properties:
+        FID:
+          type: integer
+          description: -
+        ID:
+          type: integer
+          description: The ID of the station
+        Nimi:
+          type: string
+          description: The Finnish name of the station
+        Namn:
+          type: string
+          description: The Swedish name of the station
+        Name:
+          type: string
+          description: The English name of the station
+        Osoite:
+          type: string
+          description: The Finnish address of the station
+        Adress:
+          type: string
+          description: The Swedish address of the station
+        Kaupunki:
+          type: string
+          description: The Finnish name of the city where the station is
+        Stad:
+          type: string
+          description: The Swedish name of the city where the station is
+        Operaattor:
+          type: number
+          description: The operator for the station
+        Kapasiteet:
+          type: number
+          description: The capasite of the station
+        X:
+          type: number
+          description: The Longitude of the station
+        Y:
+          type: number
+          description: The Latitude of the station
+      example:
+          FID: 121
+          ID: 41
+          Nimi: Vapauden puisto
+          Namn: Frihetsparken
+          Name: Freedom park
+          Osoite: Rantakatu 20
+          Adress: Rantakatu 20
+          Kaupunki: Joensuu
+          Stad: Joensuu
+          Operaattor: Tier
+          Kapasiteet: 26
+          lat: 62.60034555795045 
+          lon: 29.764094068853424
+      
